@@ -1,13 +1,13 @@
 import React from 'react';
 
-function RegisterPage() {
+function PaginaRegisto() {
   return (
     <div>
       <h1>Registar Utilizador</h1>
       <form>
         <div><label>Nome Completo:</label><br /><input type="text" name="nome" required /></div>
         <div><label>Email:</label><br /><input type="email" name="email" required /></div>
-        <div><label>Password:</label><br /><input type="password" name="password" required /></div>
+        <div><label>Palavra-passe:</label><br /><input type="password" name="password" required /></div>
         <div><label>Data de Nascimento:</label><br /><input type="date" name="dataNascimento" required /></div>
         <div><label>Nacionalidade:</label><br /><input type="text" name="nacionalidade" /></div>
         <div><label>Género:</label><br /><input type="text" name="genero" /></div>
@@ -17,9 +17,9 @@ function RegisterPage() {
         </div>
         <button type="submit">Registar</button>
       </form>
-      <p>Já está registado? <a href="/login">Login</a></p>
+      <p>Já tem conta? <a href="/login">Entrar</a></p>
     </div>
   );
 }
 
-export default RegisterPage;
+export default PaginaRegisto;
