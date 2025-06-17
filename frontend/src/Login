@@ -1,23 +1,23 @@
 import React from 'react';
 
-function LoginPage() {
+function PaginaLogin() {
   return (
     <div>
-      <h1>Login</h1>
+      <h1>Entrar</h1>
       <form>
         <div>
           <label>Email:</label><br />
           <input type="email" name="email" required />
         </div>
         <div>
-          <label>Password:</label><br />
+          <label>Palavra-passe:</label><br />
           <input type="password" name="password" required />
         </div>
-        <button type="submit">Login</button>
+        <button type="submit">Entrar</button>
       </form>
-      <p>Não está registado? <a href="/register">Registar</a></p>
+      <p>Não tem conta? <a href="/registar">Registar</a></p>
     </div>
   );
 }
 
-export default LoginPage;
+export default PaginaLogin;
