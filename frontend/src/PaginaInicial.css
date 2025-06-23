@@ -1,0 +1,104 @@
+/* PaginaInicial.css */
+
+.pagina-container {
+  min-height: 100vh;
+  background: linear-gradient(to bottom right, #ebf4ff, #c3dafe);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.pagina-content {
+  max-width: 1000px;
+  width: 100%;
+}
+
+.titulo {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.titulo h1 {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #2d3748;
+  margin-bottom: 1rem;
+}
+
+.titulo p {
+  font-size: 1.2rem;
+  color: #4a5568;
+  max-width: 650px;
+  margin: 0 auto;
+}
+
+.botoes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.botao-login {
+  background-color: #5a67d8;
+  color: white;
+  padding: 1rem 2rem;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  border: none;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.botao-login:hover {
+  background-color: #434190;
+  transform: translateY(-2px);
+}
+
+.botao-registo {
+  background-color: white;
+  color: #5a67d8;
+  border: 2px solid #c3dafe;
+  padding: 1rem 2rem;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.botao-registo:hover {
+  background-color: #f7fafc;
+  transform: translateY(-2px);
+}
+
+.card-section {
+  margin-top: 4rem;
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  text-align: center;
+}
+
+.card {
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #2d3748;
+}
+
+.card p {
+  color: #4a5568;
+  font-size: 0.95rem;
+}

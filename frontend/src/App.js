@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import PaginaInicial from './PaginaInicial';
 import PaginaLogin from './PaginaLogin';
-import PaginaRegistro from './PaginaRegistro';
-// Importar outras páginas quando criadas
+import PaginaRegisto from './PaginaRegisto';
+import DashboardUtilizador from './DashboardUtilizador'; // ✅ novo import
 
 const App = () => {
   const [currentPage, setCurrentPage] = useState('home');
@@ -14,6 +14,7 @@ const App = () => {
 
   const handleLogin = (userData) => {
     setUser(userData);
+    setCurrentPage('dashboard'); // opcional: navega logo para dashboard
   };
 
   const handleLogout = () => {
@@ -24,53 +25,27 @@ const App = () => {
   const renderPage = () => {
     switch (currentPage) {
       case 'home':
-        return (
-          <PaginaInicial 
-            onNavigate={handleNavigation}
-          />
-        );
-      
+        return <PaginaInicial onNavigate={handleNavigation} />;
+
       case 'login':
-        return (
-          <PaginaLogin 
-            onNavigate={handleNavigation}
-            onLogin={handleLogin}
-          />
-        );
-      
+        return <PaginaLogin onNavigate={handleNavigation} onLogin={handleLogin} />;
+
       case 'registar':
-        return (
-          <PaginaRegistro 
-            onNavigate={handleNavigation}
-            onLogin={handleLogin}
-          />
-        );
-      
+        return <PaginaRegisto onNavigate={handleNavigation} onLogin={handleLogin} />;
+
       case 'dashboard':
-        // Implementar Dashboard quando criado
         return user ? (
-          <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-            <div className="text-center">
-              <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
-              <p className="mb-4">Bem-vindo, {user.nome}!</p>
-              <button 
-                onClick={handleLogout}
-                className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded"
-              >
-                Logout
-              </button>
-            </div>
-          </div>
+          <DashboardUtilizador
+            user={user}
+            onNavigate={handleNavigation}
+            onLogout={handleLogout}
+          />
         ) : (
           <PaginaInicial onNavigate={handleNavigation} />
         );
-      
+
       default:
-        return (
-          <PaginaInicial 
-            onNavigate={handleNavigation}
-          />
-        );
+        return <PaginaInicial onNavigate={handleNavigation} />;
     }
   };
 

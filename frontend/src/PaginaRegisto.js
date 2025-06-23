@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import './PaginaRegisto.css';
 import { Users, ArrowLeft } from 'lucide-react';
 
-const PaginaRegistro = ({ onNavigate, onLogin }) => {
+const PaginaRegisto = ({ onNavigate, onLogin }) => {
   const [formData, setFormData] = useState({
     nomeUtilizador: '',
     emailUtiliziador: '',
@@ -34,8 +35,8 @@ const PaginaRegistro = ({ onNavigate, onLogin }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-8 px-4">
-      <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-xl p-8">
+    <div className="registo-container">
+      <div className="registo-box">
         <div className="text-center mb-8">
           <Users className="mx-auto mb-4 text-indigo-600" size={48} />
           <h2 className="text-2xl font-bold text-gray-800">Registar Utilizador</h2>
@@ -43,9 +44,9 @@ const PaginaRegistro = ({ onNavigate, onLogin }) => {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid grid-2">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="input-label">
                 Nome Completo *
               </label>
               <input
@@ -53,7 +54,7 @@ const PaginaRegistro = ({ onNavigate, onLogin }) => {
                 name="nomeUtilizador"
                 value={formData.nomeUtilizador}
                 onChange={handleInputChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="input-field"
                 placeholder="João Silva"
                 required
               />
@@ -126,7 +127,7 @@ const PaginaRegistro = ({ onNavigate, onLogin }) => {
                 name="genero"
                 value={formData.genero}
                 onChange={handleInputChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="select-field"
                 required
               >
                 <option value="">Selecione</option>
@@ -177,13 +178,13 @@ const PaginaRegistro = ({ onNavigate, onLogin }) => {
             <button
               type="button"
               onClick={() => onNavigate('home')}
-              className="w-full bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-2 px-4 rounded-md transition-colors duration-200 flex items-center justify-center"
+              className="button-secondary"
             >
               <ArrowLeft className="mr-2" size={16} />
               Voltar
             </button>
 
-            <div className="text-center">
+            <div className="login-redirect">
               <span className="text-gray-600">Já está registado? </span>
               <button
                 type="button"
@@ -200,4 +201,4 @@ const PaginaRegistro = ({ onNavigate, onLogin }) => {
   );
 };
 
-export default PaginaRegistro;
+export default PaginaRegisto;

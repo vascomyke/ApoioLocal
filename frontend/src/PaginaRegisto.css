@@ -1,0 +1,120 @@
+/* PaginaRegisto.css */
+
+.registo-container {
+  min-height: 100vh;
+  background: linear-gradient(to bottom right, #ebf4ff, #c3dafe);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
+}
+
+.registo-box {
+  max-width: 700px;
+  width: 100%;
+  background-color: white;
+  border-radius: 1rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+}
+
+.registo-box h2 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #2d3748;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.registo-box p {
+  text-align: center;
+  color: #4a5568;
+  margin-bottom: 2rem;
+}
+
+.grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.grid-2 {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.input-label {
+  font-weight: 600;
+  color: #4a5568;
+  margin-bottom: 0.3rem;
+  display: block;
+  font-size: 0.9rem;
+}
+
+.input-field, .select-field {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid #cbd5e0;
+  font-size: 1rem;
+}
+
+.input-field:focus, .select-field:focus {
+  outline: none;
+  border-color: #5a67d8;
+  box-shadow: 0 0 0 2px rgba(90, 103, 216, 0.3);
+}
+
+.checkbox-label {
+  font-size: 0.9rem;
+  color: #4a5568;
+  margin-left: 0.5rem;
+}
+
+.button-primary {
+  width: 100%;
+  background-color: #5a67d8;
+  color: white;
+  font-weight: 600;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.button-primary:hover {
+  background-color: #434190;
+}
+
+.button-secondary {
+  width: 100%;
+  background-color: #e2e8f0;
+  color: #2d3748;
+  font-weight: 600;
+  padding: 0.6rem;
+  border: none;
+  border-radius: 0.5rem;
+  margin-top: 0.5rem;
+  cursor: pointer;
+}
+
+.button-secondary:hover {
+  background-color: #cbd5e0;
+}
+
+.login-redirect {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.login-redirect button {
+  background: none;
+  color: #5a67d8;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.login-redirect button:hover {
+  color: #434190;
+}
