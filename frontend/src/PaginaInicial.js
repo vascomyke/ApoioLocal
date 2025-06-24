@@ -8,7 +8,7 @@ const PaginaInicial = ({ onNavigate }) => {
   <div className="pagina-content">
     <div className="titulo">
       <Building2 size={80} style={{ color: '#5a67d8', marginBottom: '1rem' }} />
-      <h1>Gestão de Estabelecimentos</h1>
+      <h1>AlbiComércio</h1>
       <p>
         Plataforma completa para registo, gestão e descoberta de estabelecimentos em Castelo Branco. 
         Conectamos negócios locais com a comunidade, promovendo o desenvolvimento económico da região.

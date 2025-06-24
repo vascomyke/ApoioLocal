@@ -28,7 +28,11 @@ const RegistarEstabelecimento = ({ onNavigate, onRegistar }) => {
       id: Date.now(),
       ...formData
     };
-    onRegistar(novoEstabelecimento); // ✅ agora funciona
+    if (typeof onRegistar === 'function') {
+      onRegistar(novoEstabelecimento);
+    } else {
+      console.error('onRegistar não está definido corretamente');
+    }
   };
 
   return (

@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './VerEstabelecimentos.css';
 
 const estabelecimentosExemplo = [
-  { id: 1, nome: 'Restaurante Central', tipo: 'Restaurante', localizacao: 'Rua A, nº 12' },
-  { id: 2, nome: 'Loja do Bairro', tipo: 'Loja', localizacao: 'Av. da Liberdade, nº 45' },
-  { id: 3, nome: 'Serviços 24h', tipo: 'Serviço', localizacao: 'Rua das Flores, nº 9' }
+  { id: 1, nome: 'Restaurante Central', tipo: 'Restaurante', localizacao: 'Rua A, nº 12', descricao: 'Comida tradicional portuguesa' },
+  { id: 2, nome: 'Loja do Bairro', tipo: 'Loja', localizacao: 'Av. da Liberdade, nº 45', descricao: 'Produtos locais e artesanato' },
+  { id: 3, nome: 'Serviços 24h', tipo: 'Serviço', localizacao: 'Rua das Flores, nº 9', descricao: 'Assistência técnica' }
 ];
 
-const VerEstabelecimentos = ({ onNavigate, onToggleFavorito, favoritos }) => {
+const VerEstabelecimentos = ({ onNavigate, favoritos, onToggleFavorito }) => {
+  const [verMaisId, setVerMaisId] = useState(null);
+
   return (
     <div className="estabs-container">
       <div className="estabs-box">
@@ -15,6 +17,8 @@ const VerEstabelecimentos = ({ onNavigate, onToggleFavorito, favoritos }) => {
         <div className="estab-lista">
           {estabelecimentosExemplo.map((estab) => {
             const isFav = favoritos.some((f) => f.id === estab.id);
+            const mostrarDetalhes = verMaisId === estab.id;
+
             return (
               <div key={estab.id} className="estab-card">
                 <h3>
@@ -25,7 +29,15 @@ const VerEstabelecimentos = ({ onNavigate, onToggleFavorito, favoritos }) => {
                 </h3>
                 <p><strong>Tipo:</strong> {estab.tipo}</p>
                 <p><strong>Localização:</strong> {estab.localizacao}</p>
-                <button onClick={() => alert('Ver mais em breve...')}>Ver mais</button>
+
+                {mostrarDetalhes && (
+                  <div className="detalhes">
+                    <p><strong>Descrição:</strong> {estab.descricao}</p>
+                    {/* Podes adicionar mais campos aqui */}
+                  </div>
+                )}
+
+                <button onClick={() => setVerMaisId(estab.id)}>Ver mais</button>
               </div>
             );
           })}
