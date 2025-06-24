@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './RegistarEstabelecimento.css';
 
-const RegistarEstabelecimento = ({ onNavigate }) => {
+const RegistarEstabelecimento = ({ onNavigate, onRegistar }) => {
   const [formData, setFormData] = useState({
     nomeEstabelecimento: '',
     tipoEstabelecimento: '',
@@ -11,7 +11,7 @@ const RegistarEstabelecimento = ({ onNavigate }) => {
     emailEmpresa: '',
     site: '',
     descricao: '',
-    fotos: null // simulamos com apenas um ficheiro por agora
+    fotos: null
   });
 
   const handleChange = (e) => {
@@ -24,9 +24,11 @@ const RegistarEstabelecimento = ({ onNavigate }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Estabelecimento registado:', formData);
-    alert('Estabelecimento registado com sucesso!');
-    onNavigate('dashboard');
+    const novoEstabelecimento = {
+      id: Date.now(),
+      ...formData
+    };
+    onRegistar(novoEstabelecimento); // ✅ agora funciona
   };
 
   return (

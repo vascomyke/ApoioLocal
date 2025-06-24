@@ -1,0 +1,64 @@
+.gerir-container {
+  padding: 2rem;
+  font-family: sans-serif;
+}
+
+.gerir-box {
+  max-width: 800px;
+  margin: auto;
+}
+
+.gerir-lista {
+  margin-top: 1rem;
+}
+
+.gerir-card {
+  background: #fefefe;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.botoes {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn-editar,
+.btn-remover {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn-editar {
+  background-color: #4299e1;
+  color: white;
+}
+
+.btn-remover {
+  background-color: #e53e3e;
+  color: white;
+}
+
+.btn-voltar {
+  margin-top: 1rem;
+  padding: 0.75rem 1.25rem;
+  background-color: #ccc;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.fav-btn {
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  float: right;
+  margin-top: -4px;
+  cursor: pointer;
+}

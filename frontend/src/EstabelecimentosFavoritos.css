@@ -1,0 +1,40 @@
+.fav-container {
+  padding: 2rem;
+  font-family: sans-serif;
+}
+
+.fav-box {
+  max-width: 800px;
+  margin: auto;
+}
+
+.fav-lista {
+  margin-top: 1rem;
+}
+
+.fav-card {
+  background: #fff8dc;
+  border: 1px solid #e2e2e2;
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.btn-voltar {
+  margin-top: 1rem;
+  padding: 0.75rem 1.25rem;
+  background-color: #ccc;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.fav-card button {
+  margin-top: 0.75rem;
+  background-color: #f56565;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+}

@@ -1,0 +1,36 @@
+.estabs-container {
+  padding: 2rem;
+  font-family: sans-serif;
+}
+
+.estabs-box {
+  max-width: 800px;
+  margin: auto;
+}
+
+.estab-card {
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  position: relative;
+}
+
+.fav-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  float: right;
+  margin-left: 8px;
+}
+
+.voltar-btn {
+  margin-top: 1.5rem;
+  padding: 0.75rem 1.25rem;
+  background-color: #ccc;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
