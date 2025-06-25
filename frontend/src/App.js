@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import PaginaInicial from './PaginaInicial';
 import PaginaLogin from './PaginaLogin';
 import PaginaRegisto from './PaginaRegisto';
@@ -8,24 +9,57 @@ import VerEstabelecimentos from './VerEstabelecimentos';
 import GerirEstabelecimentos from './GerirEstabelecimentos';
 import EstabelecimentosFavoritos from './EstabelecimentosFavoritos';
 
-const App = () => {
-  const [currentPage, setCurrentPage] = useState('home');
+// Main App component that handles routing
+const AppContent = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [user, setUser] = useState(null);
   const [estabelecimentos, setEstabelecimentos] = useState([]);
   const [favoritos, setFavoritos] = useState([]);
 
+  // Convert URL path to page name for consistency with your existing logic
+  const getPageFromPath = (path) => {
+    const pathMap = {
+      '/': 'home',
+      '/login': 'login',
+      '/registar': 'registar',
+      '/dashboard': 'dashboard',
+      '/registar-estabelecimento': 'registarEstabelecimento',
+      '/estabelecimentos': 'verEstabelecimentos',
+      '/gerir-estabelecimentos': 'gerirEstabelecimentos',
+      '/favoritos': 'favoritos'
+    };
+    return pathMap[path] || 'home';
+  };
+
+  // Convert page name to URL path
+  const getPathFromPage = (page) => {
+    const pageMap = {
+      'home': '/',
+      'login': '/login',
+      'registar': '/registar',
+      'dashboard': '/dashboard',
+      'registarEstabelecimento': '/registar-estabelecimento',
+      'verEstabelecimentos': '/estabelecimentos',
+      'gerirEstabelecimentos': '/gerir-estabelecimentos',
+      'favoritos': '/favoritos'
+    };
+    return pageMap[page] || '/';
+  };
+
   const handleNavigation = (page) => {
-    setCurrentPage(page);
+    const path = getPathFromPage(page);
+    navigate(path);
   };
 
   const handleLogin = (userData) => {
     setUser(userData);
-    setCurrentPage('dashboard');
+    navigate('/dashboard');
   };
 
   const handleLogout = () => {
     setUser(null);
-    setCurrentPage('home');
+    navigate('/');
   };
 
   const toggleFavorito = (estab) => {
@@ -37,73 +71,108 @@ const App = () => {
 
   const handleRegistarEstabelecimento = (novo) => {
     setEstabelecimentos((prev) => [...prev, novo]);
-    setCurrentPage('gerirEstabelecimentos');
+    navigate('/gerir-estabelecimentos');
   };
 
-  const renderPage = () => {
-    switch (currentPage) {
-      case 'home':
-        return <PaginaInicial onNavigate={handleNavigation} />;
-
-      case 'login':
-        return <PaginaLogin onNavigate={handleNavigation} onLogin={handleLogin} />;
-
-      case 'registar':
-        return <PaginaRegisto onNavigate={handleNavigation} onLogin={handleLogin} />;
-
-      case 'dashboard':
-        return user ? (
-          <DashboardUtilizador
-            user={user}
-            onNavigate={handleNavigation}
-            onLogout={handleLogout}
-          />
-        ) : (
-          <PaginaInicial onNavigate={handleNavigation} />
-        );
-
-      case 'registarEstabelecimento':
-        return (
-          <RegistarEstabelecimento
-            onNavigate={handleNavigation}
-            onRegistar={handleRegistarEstabelecimento}
-          />
-        );
-
-      case 'verEstabelecimentos':
-        return (
-          <VerEstabelecimentos
-            onNavigate={handleNavigation}
-            favoritos={favoritos}
-            onToggleFavorito={toggleFavorito}
-          />
-        );
-
-      case 'gerirEstabelecimentos':
-        return (
-          <GerirEstabelecimentos
-            onNavigate={handleNavigation}
-            estabelecimentos={estabelecimentos}
-            favoritos={favoritos}
-            onToggleFavorito={toggleFavorito}
-          />
-        );
-
-      case 'favoritos':
-        return (
-          <EstabelecimentosFavoritos
-            onNavigate={handleNavigation}
-            favoritos={favoritos}
-            onToggleFavorito={toggleFavorito}
-          />
-        );
-
-      default:
-        return <PaginaInicial onNavigate={handleNavigation} />;
+  // Protected route wrapper
+  const ProtectedRoute = ({ children }) => {
+    if (!user) {
+      navigate('/login');
+      return null;
     }
+    return children;
   };
 
-  return <div className="App">{renderPage()}</div>;
+  return (
+    <div className="App">
+      <Routes>
+        <Route 
+          path="/" 
+          element={<PaginaInicial onNavigate={handleNavigation} />} 
+        />
+        
+        <Route 
+          path="/login" 
+          element={<PaginaLogin onNavigate={handleNavigation} onLogin={handleLogin} />} 
+        />
+        
+        <Route 
+          path="/registar" 
+          element={<PaginaRegisto onNavigate={handleNavigation} onLogin={handleLogin} />} 
+        />
+        
+        <Route 
+          path="/dashboard" 
+          element={
+            <ProtectedRoute>
+              <DashboardUtilizador
+                user={user}
+                onNavigate={handleNavigation}
+                onLogout={handleLogout}
+              />
+            </ProtectedRoute>
+          } 
+        />
+        
+        <Route 
+          path="/registar-estabelecimento" 
+          element={
+            <ProtectedRoute>
+              <RegistarEstabelecimento
+                onNavigate={handleNavigation}
+                onRegistar={handleRegistarEstabelecimento}
+              />
+            </ProtectedRoute>
+          } 
+        />
+        
+        <Route 
+          path="/estabelecimentos" 
+          element={
+            <VerEstabelecimentos
+              onNavigate={handleNavigation}
+              favoritos={favoritos}
+              onToggleFavorito={toggleFavorito}
+            />
+          } 
+        />
+        
+        <Route 
+          path="/gerir-estabelecimentos" 
+          element={
+            <ProtectedRoute>
+              <GerirEstabelecimentos
+                onNavigate={handleNavigation}
+                estabelecimentos={estabelecimentos}
+                favoritos={favoritos}
+                onToggleFavorito={toggleFavorito}
+              />
+            </ProtectedRoute>
+          } 
+        />
+        
+        <Route 
+          path="/favoritos" 
+          element={
+            <EstabelecimentosFavoritos
+              onNavigate={handleNavigation}
+              favoritos={favoritos}
+              onToggleFavorito={toggleFavorito}
+            />
+          } 
+        />
+      </Routes>
+    </div>
+  );
+};
+
+// Wrapper component with Router
+const App = () => {
+  return (
+    <Router>
+      <AppContent />
+    </Router>
+  );
 };
 
 export default App;
