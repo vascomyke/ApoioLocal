@@ -104,7 +104,7 @@ app.post('/api/users/register', async (req, res) => {
     const {
       email,
       password,
-      nome, // from frontend
+      nome, 
       dataNascimento,
       nacionalidade,
       genero,
