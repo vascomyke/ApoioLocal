@@ -6,17 +6,28 @@ const PaginaLogin = ({ onNavigate, onLogin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Simulação de login (usar API real em produção)
-    const userData = {
-      nome: 'Utilizador',
-      email: email
-    };
+    try {
+      const response = await fetch('http://localhost:3001/api/users/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
 
-    onLogin(userData);
-    onNavigate('dashboard');
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        // Save token if needed: localStorage.setItem('token', data.data.token);
+        onLogin(data.data.user); // Pass user data to parent
+        onNavigate('dashboard');
+      } else {
+        alert(data.message || 'Credenciais inválidas.');
+      }
+    } catch (error) {
+      alert('Erro de ligação ao servidor.');
+    }
   };
 
   return (
