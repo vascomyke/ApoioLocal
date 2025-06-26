@@ -5,7 +5,7 @@ import { Users, ArrowLeft } from 'lucide-react';
 const PaginaRegisto = ({ onNavigate, onLogin }) => {
   const [formData, setFormData] = useState({
     nomeUtilizador: '',
-    emailUtiliziador: '',
+    emailUtilizador: '',
     password: '',
     dataNascimento: '',
     nacionalidade: '',
@@ -22,16 +22,41 @@ const PaginaRegisto = ({ onNavigate, onLogin }) => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Simular registo - em produção seria uma chamada à API
-    const userData = {
-      id: Date.now(),
+
+    // Prepare the payload to match your backend's expected fields
+    const payload = {
       nome: formData.nomeUtilizador,
-      email: formData.emailUtiliziador
+      email: formData.emailUtilizador,
+      password: formData.password,
+      dataNascimento: formData.dataNascimento,
+      nacionalidade: formData.nacionalidade,
+      genero: formData.genero,
+      telemovel: formData.telemovel,
+      souResidente: formData.souResidente
     };
-    onLogin(userData);
-    onNavigate('dashboard');
+
+    try {
+      const response = await fetch('http://localhost:3001/api/users/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Registration successful
+        onLogin(data.user || payload); // Adjust as per your backend response
+        onNavigate('dashboard');
+      } else {
+        // Handle registration error (show message to user)
+        alert(data.message || 'Erro ao registar utilizador.');
+      }
+    } catch (error) {
+      alert('Erro de ligação ao servidor.');
+    }
   };
 
   return (
@@ -66,8 +91,8 @@ const PaginaRegisto = ({ onNavigate, onLogin }) => {
               </label>
               <input
                 type="email"
-                name="emailUtiliziador"
-                value={formData.emailUtiliziador}
+                name="emailUtilizador"
+                value={formData.emailUtilizador}
                 onChange={handleInputChange}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                 placeholder="joao@email.com"

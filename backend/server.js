@@ -101,13 +101,22 @@ app.get('/health', (req, res) => {
 // User registration
 app.post('/api/users/register', async (req, res) => {
   try {
-    const { email, password, name, phone } = req.body;
+    const {
+      email,
+      password,
+      nome, // from frontend
+      dataNascimento,
+      nacionalidade,
+      genero,
+      telemovel,
+      souResidente
+    } = req.body;
 
     // Validate required fields
-    if (!email || !password || !name) {
+    if (!email || !password || !nome) {
       return res.status(400).json({
         success: false,
-        message: 'Email, password, and name are required'
+        message: 'Email, password, and nome are required'
       });
     }
 
@@ -137,8 +146,12 @@ app.post('/api/users/register', async (req, res) => {
       id: uuidv4(),
       email: email.toLowerCase().trim(),
       password: hashedPassword,
-      name: name.trim(),
-      phone: phone?.trim() || null,
+      nome: nome.trim(),
+      dataNascimento: dataNascimento || null,
+      nacionalidade: nacionalidade || null,
+      genero: genero || null,
+      telemovel: telemovel || null,
+      souResidente: !!souResidente,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
     };
