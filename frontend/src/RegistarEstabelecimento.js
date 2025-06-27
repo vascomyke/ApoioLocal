@@ -22,16 +22,46 @@ const RegistarEstabelecimento = ({ onNavigate, onRegistar }) => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const novoEstabelecimento = {
-      id: Date.now(),
-      ...formData
+
+    // Get user from localStorage
+    const user = JSON.parse(localStorage.getItem('user'));
+
+    // Prepare the payload to match your backend's expected fields
+    const payload = {
+      name: formData.nomeEstabelecimento,
+      category: formData.tipoEstabelecimento,
+      address: formData.ruaNumero,
+      postalCode: formData.codigoPostal,
+      phone: formData.telemovelEmpresa,
+      email: formData.emailEmpresa,
+      website: formData.site,
+      description: formData.descricao,
+      images: [], // You can handle file uploads later if needed
+      userId: user.id // Attach the user ID
     };
-    if (typeof onRegistar === 'function') {
-      onRegistar(novoEstabelecimento);
-    } else {
-      console.error('onRegistar não está definido corretamente');
+
+    try {
+      const response = await fetch('http://localhost:3001/api/businesses', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        alert('Estabelecimento registado com sucesso!');
+        if (typeof onRegistar === 'function') {
+          onRegistar(data.data); // Optionally update parent state
+        }
+        onNavigate('gerirEstabelecimentos');
+      } else {
+        alert(data.message || 'Erro ao registar estabelecimento.');
+      }
+    } catch (error) {
+      alert('Erro de ligação ao servidor.');
     }
   };
 
@@ -65,12 +95,20 @@ const RegistarEstabelecimento = ({ onNavigate, onRegistar }) => {
           <input type="email" name="emailEmpresa" required onChange={handleChange} />
 
           <label>Website</label>
-          <input type="url" name="site" onChange={handleChange} />
+          <input
+            type="url"
+            name="site"
+            onChange={handleChange}
+            aria-describedby="websiteHint"
+          />
+          <small id="websiteHint" className="input-hint" style={{ display: 'block', marginTop: '0px', marginBottom: '10px' }}>
+            Introduz um website válido, incluindo o protocolo (e.g., https://...).
+          </small>
 
           <label>Descrição</label>
           <textarea name="descricao" rows="3" onChange={handleChange}></textarea>
 
-          <label>Fotos (simulado)</label>
+          <label>Fotos </label>
           <input type="file" name="fotos" accept="image/*" onChange={handleChange} />
 
           <button type="submit" className="btn-primary">Registar</button>

@@ -623,6 +623,35 @@ app.get('/api/businesses/:id', async (req, res) => {
   }
 });
 
+// Get all businesses by userId (creator)
+app.get('/api/businesses/user/:userId', async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    const querySpec = {
+      query: 'SELECT * FROM c WHERE c.userId = @userId',
+      parameters: [{ name: '@userId', value: userId }]
+    };
+
+    const { resources: businesses } = await businessContainer.items
+      .query(querySpec)
+      .fetchAll();
+
+    res.json({
+      success: true,
+      count: businesses.length,
+      data: businesses
+    });
+  } catch (error) {
+    console.error('Error fetching businesses by userId:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error fetching businesses by userId',
+      error: error.message
+    });
+  }
+});
+
 // Create new business
 app.post('/api/businesses', async (req, res) => {
   try {
@@ -630,38 +659,41 @@ app.post('/api/businesses', async (req, res) => {
       name,
       category,
       address,
-      area,
+      postalCode,
       phone,
-      description,
+      email,
       website,
-      email
+      description,
+      images,
+      userId // <-- now accepted
     } = req.body;
-    
+
     // Validate required fields
-    if (!name || !category || !address || !area) {
+    if (!name || !category || !address) {
       return res.status(400).json({
         success: false,
-        message: 'Name, category, address, and area are required'
+        message: 'Name, category and address are required'
       });
     }
-    
+
     const newBusiness = {
       id: uuidv4(),
       name: name.trim(),
       category: category.toLowerCase().trim(),
       address: address.trim(),
-      area: area.trim(),
+      postalCode: postalCode?.trim() || null, // store postalCode if provided
       phone: phone?.trim() || null,
       description: description?.trim() || null,
       website: website?.trim() || null,
       email: email?.trim() || null,
-      images: [],
+      images: Array.isArray(images) ? images : [],
+      userId: userId || null, // store userId of creator
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
     };
-    
+
     const { resource: createdBusiness } = await businessContainer.items.create(newBusiness);
-    
+
     res.status(201).json({
       success: true,
       message: 'Business created successfully',
