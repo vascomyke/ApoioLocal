@@ -56,7 +56,7 @@ const RegistarEstabelecimento = ({ onNavigate, onRegistar }) => {
         if (typeof onRegistar === 'function') {
           onRegistar(data.data); // Optionally update parent state
         }
-        onNavigate('gerirEstabelecimentos');
+        onNavigate('dashboard'); // Navigate to dashboard
       } else {
         alert(data.message || 'Erro ao registar estabelecimento.');
       }

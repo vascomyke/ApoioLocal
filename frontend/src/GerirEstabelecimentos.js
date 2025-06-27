@@ -1,17 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import './GerirEstabelecimentos.css';
 
-const GerirEstabelecimentos = ({ onNavigate, estabelecimentos, favoritos, onToggleFavorito }) => {
+const GerirEstabelecimentos = ({ onNavigate, favoritos, onToggleFavorito }) => {
   const [estabs, setEstabs] = useState([]);
   const [editId, setEditId] = useState(null);
   const [editData, setEditData] = useState({});
 
   useEffect(() => {
-    setEstabs(estabelecimentos || []);
-  }, [estabelecimentos]);
+    // Get user from localStorage
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user && user.id) {
+      fetch(`http://localhost:3001/api/businesses/user/${user.id}`)
+        .then(res => res.json())
+        .then(data => setEstabs(Array.isArray(data.data) ? data.data : []))
+        .catch(() => setEstabs([]));
+    }
+  }, []);
 
-  const removerEstab = (id) => {
-    setEstabs(estabs.filter((e) => e.id !== id));
+  const removerEstab = async (id) => {
+    try {
+      const response = await fetch(`http://localhost:3001/api/businesses/${id}`, {
+        method: 'DELETE'
+      });
+      const data = await response.json();
+      if (response.ok && data.success) {
+        setEstabs(estabs.filter((e) => e.id !== id));
+      } else {
+        alert(data.message || 'Erro ao remover estabelecimento.');
+      }
+    } catch (error) {
+      alert('Erro de ligação ao servidor.');
+    }
   };
 
   const handleEditClick = (estab) => {
@@ -27,6 +46,7 @@ const GerirEstabelecimentos = ({ onNavigate, estabelecimentos, favoritos, onTogg
   const guardarEdicao = () => {
     setEstabs(estabs.map((e) => (e.id === editId ? editData : e)));
     setEditId(null);
+    // Optionally, call your backend to update the business as well
   };
 
   return (
@@ -47,13 +67,13 @@ const GerirEstabelecimentos = ({ onNavigate, estabelecimentos, favoritos, onTogg
                   <h3>
                     {isEditing ? (
                       <input
-                        name="nomeEstabelecimento"
-                        value={editData.nomeEstabelecimento}
+                        name="name"
+                        value={editData.name}
                         onChange={handleInputChange}
                       />
                     ) : (
                       <>
-                        {estab.nomeEstabelecimento}
+                        {estab.name}
                         <button className="fav-btn" onClick={() => onToggleFavorito(estab)}>
                           {isFav ? '⭐' : '☆'}
                         </button>
@@ -64,9 +84,9 @@ const GerirEstabelecimentos = ({ onNavigate, estabelecimentos, favoritos, onTogg
                   <p>
                     <strong>Tipo:</strong>{' '}
                     {isEditing ? (
-                      <input name="tipoEstabelecimento" value={editData.tipoEstabelecimento} onChange={handleInputChange} />
+                      <input name="category" value={editData.category} onChange={handleInputChange} />
                     ) : (
-                      estab.tipoEstabelecimento
+                      estab.category
                     )}
                   </p>
 
@@ -74,11 +94,11 @@ const GerirEstabelecimentos = ({ onNavigate, estabelecimentos, favoritos, onTogg
                     <strong>Localização:</strong>{' '}
                     {isEditing ? (
                       <>
-                        <input name="ruaNumero" value={editData.ruaNumero} onChange={handleInputChange} />
-                        <input name="codigoPostal" value={editData.codigoPostal} onChange={handleInputChange} />
+                        <input name="address" value={editData.address} onChange={handleInputChange} />
+                        <input name="postalCode" value={editData.postalCode} onChange={handleInputChange} />
                       </>
                     ) : (
-                      `${estab.ruaNumero}, ${estab.codigoPostal}`
+                      `${estab.address}, ${estab.postalCode || ''}`
                     )}
                   </p>
 
