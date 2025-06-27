@@ -34,7 +34,7 @@ const VerEstabelecimentos = ({ onNavigate, favoritos, onToggleFavorito }) => {
 
                 {mostrarDetalhes && (
                   <div className="detalhes">
-                    <p><strong>Descrição:</strong> {estab.descricao || estab.description}</p>
+                    <p><strong>Descrição:</strong> {estab.description}</p>
                   </div>
                 )}
 
