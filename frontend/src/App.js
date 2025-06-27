@@ -47,6 +47,15 @@ const AppContent = () => {
     return pageMap[page] || '/';
   };
 
+// Initialize user and token from localStorage on first render
+  useEffect(() => {
+  const token = localStorage.getItem('token');
+  const user = localStorage.getItem('user');
+  if (token && user) {
+    setUser(JSON.parse(user));
+  }
+}, []);
+
   const handleNavigation = (page) => {
     const path = getPathFromPage(page);
     navigate(path);
@@ -59,6 +68,8 @@ const AppContent = () => {
 
   const handleLogout = () => {
     setUser(null);
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
     navigate('/');
   };
 
@@ -129,11 +140,13 @@ const AppContent = () => {
         <Route 
           path="/estabelecimentos" 
           element={
-            <VerEstabelecimentos
-              onNavigate={handleNavigation}
-              favoritos={favoritos}
-              onToggleFavorito={toggleFavorito}
-            />
+            <ProtectedRoute>
+              <VerEstabelecimentos
+                onNavigate={handleNavigation}
+                favoritos={favoritos}
+                onToggleFavorito={toggleFavorito}
+              />
+            </ProtectedRoute>
           } 
         />
         
@@ -154,11 +167,13 @@ const AppContent = () => {
         <Route 
           path="/favoritos" 
           element={
-            <EstabelecimentosFavoritos
-              onNavigate={handleNavigation}
-              favoritos={favoritos}
-              onToggleFavorito={toggleFavorito}
-            />
+            <ProtectedRoute>
+              <EstabelecimentosFavoritos
+                onNavigate={handleNavigation}
+                favoritos={favoritos}
+                onToggleFavorito={toggleFavorito}
+              />
+            </ProtectedRoute>
           } 
         />
       </Routes>
