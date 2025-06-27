@@ -22,6 +22,12 @@ const PaginaLogin = ({ onNavigate, onLogin }) => {
         // Save token if needed: localStorage.setItem('token', data.data.token);
         onLogin(data.data.user); // Pass user data to parent
         onNavigate('dashboard');
+
+        // When login is successful
+        const expireTime = 7 * 24 * 60 * 60 * 1000;
+        localStorage.setItem('token', data.data.token);
+        localStorage.setItem('user', JSON.stringify(data.data.user));
+        localStorage.setItem('loginExpiry', Date.now() + expireTime);
       } else {
         alert(data.message || 'Credenciais inválidas.');
       }

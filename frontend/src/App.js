@@ -8,6 +8,7 @@ import RegistarEstabelecimento from './RegistarEstabelecimento';
 import VerEstabelecimentos from './VerEstabelecimentos';
 import GerirEstabelecimentos from './GerirEstabelecimentos';
 import EstabelecimentosFavoritos from './EstabelecimentosFavoritos';
+import AccessDenied from './AccessDenied';
 
 // Main App component that handles routing
 const AppContent = () => {
@@ -49,12 +50,19 @@ const AppContent = () => {
 
 // Initialize user and token from localStorage on first render
   useEffect(() => {
-  const token = localStorage.getItem('token');
-  const user = localStorage.getItem('user');
-  if (token && user) {
-    setUser(JSON.parse(user));
-  }
-}, []);
+    const token = localStorage.getItem('token');
+    const user = localStorage.getItem('user');
+    const expiry = localStorage.getItem('loginExpiry');
+    if (token && user && expiry && Date.now() < Number(expiry)) {
+      setUser(JSON.parse(user));
+    } else {
+      // Expired or missing, clear storage
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      localStorage.removeItem('loginExpiry');
+      setUser(null);
+    }
+  }, []);
 
   const handleNavigation = (page) => {
     const path = getPathFromPage(page);
@@ -70,6 +78,7 @@ const AppContent = () => {
     setUser(null);
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+    localStorage.removeItem('loginExpiry');
     navigate('/');
   };
 
@@ -88,8 +97,7 @@ const AppContent = () => {
   // Protected route wrapper
   const ProtectedRoute = ({ children }) => {
     if (!user) {
-      navigate('/login');
-      return null;
+      return <AccessDenied />;
     }
     return children;
   };
@@ -180,6 +188,8 @@ const AppContent = () => {
     </div>
   );
 };
+
+
 
 // Wrapper component with Router
 const App = () => {
