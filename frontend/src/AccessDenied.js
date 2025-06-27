@@ -8,7 +8,7 @@ const AccessDenied = () => {
     // Redirect to home after 2 seconds
     const timer = setTimeout(() => {
       navigate('/');
-    }, 5000);
+    }, 8000);
     return () => clearTimeout(timer);
   }, [navigate]);
 
