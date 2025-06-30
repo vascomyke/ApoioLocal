@@ -11,6 +11,9 @@ const VerEstabelecimentos = ({ onNavigate, favoritos, onToggleFavorito }) => {
       .then(data => setEstabelecimentos(Array.isArray(data.data) ? data.data : []))
       .catch(() => setEstabelecimentos([]));
   }, []);
+  const toggleVerMais = (id) => {
+    setVerMaisId(verMaisId === id ? null : id);
+  };
 
   return (
     <div className="estabs-container">
@@ -34,11 +37,16 @@ const VerEstabelecimentos = ({ onNavigate, favoritos, onToggleFavorito }) => {
 
                 {mostrarDetalhes && (
                   <div className="detalhes">
-                    <p><strong>Descrição:</strong> {estab.description}</p>
+                    <p><strong>Descrição:</strong> {estab.descricao}</p>
+                    <p><strong>Email:</strong> {estab.emailEmpresa}</p>
+                    <p><strong>Telemóvel:</strong> {estab.telemovelEmpresa}</p>
+                    <p><strong>Website:</strong> <a href={estab.site} target="_blank" rel="noreferrer">{estab.site}</a></p>
                   </div>
                 )}
 
-                <button onClick={() => setVerMaisId(estab.id)}>Ver mais</button>
+                <button onClick={() => toggleVerMais(estab.id)}>
+                  {mostrarDetalhes ? 'Ver menos' : 'Ver mais'}
+                </button>
               </div>
             );
           })}

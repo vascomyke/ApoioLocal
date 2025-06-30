@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './PaginaLogin.css';
-import { User } from 'lucide-react';
+import { User, ArrowLeft } from 'lucide-react';
 
 const PaginaLogin = ({ onNavigate, onLogin }) => {
   const [email, setEmail] = useState('');
@@ -68,11 +68,20 @@ const PaginaLogin = ({ onNavigate, onLogin }) => {
         </form>
 
         <div className="login-footer">
-          Não tem conta?
-          <button onClick={() => onNavigate('registar')}>
+          <span>Não tem conta? </span>
+          <button onClick={() => onNavigate('registar')} className="text-link">
             Registar
           </button>
         </div>
+
+        <button
+          type="button"
+          className="back-button"
+          onClick={() => onNavigate('home')}
+        >
+          <ArrowLeft size={16} style={{ marginRight: '0.5rem' }} />
+          Voltar
+        </button>
       </div>
     </div>
   );

@@ -40,7 +40,7 @@ const GerirEstabelecimentos = ({ onNavigate, favoritos, onToggleFavorito }) => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setEditData({ ...editData, [name]: value });
+    setEditData((prev) => ({ ...prev, [name]: value }));
   };
 
   const guardarEdicao = () => {
@@ -59,8 +59,8 @@ const GerirEstabelecimentos = ({ onNavigate, favoritos, onToggleFavorito }) => {
         ) : (
           <div className="gerir-lista">
             {estabs.map((estab) => {
+              const isEditing = editId === estab.id;
               const isFav = favoritos.some((f) => f.id === estab.id);
-              const isEditing = estab.id === editId;
 
               return (
                 <div key={estab.id} className="gerir-card">
@@ -101,6 +101,51 @@ const GerirEstabelecimentos = ({ onNavigate, favoritos, onToggleFavorito }) => {
                       `${estab.address}, ${estab.postalCode || ''}`
                     )}
                   </p>
+
+                  {isEditing ? (
+                    <>
+                      <p>
+                        <strong>Telemóvel:</strong>{' '}
+                        <input
+                          name="telemovelEmpresa"
+                          value={editData.telemovelEmpresa}
+                          onChange={handleInputChange}
+                        />
+                      </p>
+                      <p>
+                        <strong>Email:</strong>{' '}
+                        <input
+                          name="emailEmpresa"
+                          value={editData.emailEmpresa}
+                          onChange={handleInputChange}
+                        />
+                      </p>
+                      <p>
+                        <strong>Website:</strong>{' '}
+                        <input
+                          name="site"
+                          value={editData.site}
+                          onChange={handleInputChange}
+                        />
+                      </p>
+                      <p>
+                        <strong>Descrição:</strong>{' '}
+                        <textarea
+                          name="descricao"
+                          value={editData.descricao}
+                          onChange={handleInputChange}
+                          rows={2}
+                        />
+                      </p>
+                    </>
+                  ) : (
+                    <>
+                      <p><strong>Telemóvel:</strong> {estab.telemovelEmpresa}</p>
+                      <p><strong>Email:</strong> {estab.emailEmpresa}</p>
+                      <p><strong>Website:</strong> {estab.site}</p>
+                      <p><strong>Descrição:</strong> {estab.descricao}</p>
+                    </>
+                  )}
 
                   <div className="botoes">
                     {isEditing ? (

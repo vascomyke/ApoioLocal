@@ -14,6 +14,8 @@ const PaginaRegisto = ({ onNavigate, onLogin }) => {
     souResidente: false
   });
 
+  const [mostrarSenha, setMostrarSenha] = useState(false);
+
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData({
@@ -24,8 +26,6 @@ const PaginaRegisto = ({ onNavigate, onLogin }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Prepare the payload to match your backend's expected fields
     const payload = {
       nome: formData.nomeUtilizador,
       email: formData.emailUtilizador,
@@ -47,11 +47,9 @@ const PaginaRegisto = ({ onNavigate, onLogin }) => {
       const data = await response.json();
 
       if (response.ok) {
-        // Registration successful
-        onLogin(data.user || payload); // Adjust as per your backend response
+        onLogin(data.user || payload);
         onNavigate('dashboard');
       } else {
-        // Handle registration error (show message to user)
         alert(data.message || 'Erro ao registar utilizador.');
       }
     } catch (error) {
@@ -64,16 +62,14 @@ const PaginaRegisto = ({ onNavigate, onLogin }) => {
       <div className="registo-box">
         <div className="text-center mb-8">
           <Users className="mx-auto mb-4 text-indigo-600" size={48} />
-          <h2 className="text-2xl font-bold text-gray-800">Registar Utilizador</h2>
-          <p className="text-gray-600 mt-2">Crie a sua conta para começar</p>
+          <h2 className="text-3xl font-extrabold text-gray-800">Crie a sua conta</h2>
+          <p className="text-gray-600 mt-2">Preencha os seus dados para se registar</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="grid grid-2">
+        <form onSubmit={handleSubmit} className="form-registo">
+          <div className="form-grid">
             <div>
-              <label className="input-label">
-                Nome Completo *
-              </label>
+              <label className="input-label">Nome Completo *</label>
               <input
                 type="text"
                 name="nomeUtilizador"
@@ -86,68 +82,90 @@ const PaginaRegisto = ({ onNavigate, onLogin }) => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Email *
-              </label>
+              <label className="input-label">Email *</label>
               <input
                 type="email"
                 name="emailUtilizador"
                 value={formData.emailUtilizador}
                 onChange={handleInputChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="input-field"
                 placeholder="joao@email.com"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Password *
-              </label>
-              <input
-                type="password"
-                name="password"
-                value={formData.password}
-                onChange={handleInputChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                placeholder="••••••••"
-                required
-              />
+              <label className="input-label">Password *</label>
+              <div className="campo-senha">
+                <input
+                  type={mostrarSenha ? 'text' : 'password'}
+                  name="password"
+                  value={formData.password}
+                  onChange={handleInputChange}
+                  className="input-field"
+                  placeholder="••••••••"
+                  required
+                />
+                <button
+                  type="button"
+                  className="btn-ver"
+                  onClick={() => setMostrarSenha(!mostrarSenha)}
+                >
+                  {mostrarSenha ? 'Ocultar' : 'Mostrar'}
+                </button>
+              </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Data de Nascimento *
-              </label>
+              <label className="input-label">Data de Nascimento *</label>
               <input
                 type="date"
                 name="dataNascimento"
                 value={formData.dataNascimento}
                 onChange={handleInputChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="input-field"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Nacionalidade *
-              </label>
-              <input
-                type="text"
+              <label className="input-label">Nacionalidade *</label>
+              <select
                 name="nacionalidade"
                 value={formData.nacionalidade}
                 onChange={handleInputChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                placeholder="Portuguesa"
+                className="select-field"
                 required
-              />
+              >
+                <option value="">Selecione</option>
+                <option value="Portuguesa">Portuguesa</option>
+                <option value="Britânica">Britânica</option>
+                <option value="Estadunidense">Estadunidense</option>
+                <option value="Canadiana">Canadiana</option>
+                <option value="Australiana">Australiana</option>
+                <option value="Francesa">Francesa</option>
+                <option value="Espanhola">Espanhola</option>
+                <option value="Alemã">Alemã</option>
+                <option value="Brasileira">Brasileira</option>
+                <option value="Japonesa">Japonesa</option>
+                <option value="Chinesa">Chinesa</option>
+                <option value="Indiana">Indiana</option>
+                <option value="Mexicana">Mexicana</option>
+                <option value="Argentina">Argentina</option>
+                <option value="Sul-Africana">Sul-Africana</option>
+                <option value="Egípcia">Egípcia</option>
+                <option value="Coreana">Coreana</option>
+                <option value="Italiana">Italiana</option>
+                <option value="Sueca">Sueca</option>
+                <option value="Norueguesa">Norueguesa</option>
+                <option value="Neozelandesa">Neozelandesa</option>
+                <option value="Singapurense">Singapurense</option>
+                <option value="Outra">Outra</option>
+              </select>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Género *
-              </label>
+              <label className="input-label">Género *</label>
               <select
                 name="genero"
                 value={formData.genero}
@@ -163,50 +181,40 @@ const PaginaRegisto = ({ onNavigate, onLogin }) => {
               </select>
             </div>
 
-            <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Telemóvel *
-              </label>
+            <div className="full-width">
+              <label className="input-label">Telemóvel *</label>
               <input
                 type="tel"
                 name="telemovel"
                 value={formData.telemovel}
                 onChange={handleInputChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="input-field"
                 placeholder="912345678"
                 required
               />
             </div>
           </div>
 
-          <div className="flex items-center">
+          <div className="checkbox-row">
             <input
               type="checkbox"
               name="souResidente"
               checked={formData.souResidente}
               onChange={handleInputChange}
-              className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+              className="checkbox-input"
             />
-            <label className="ml-2 block text-sm text-gray-700">
-              Sou Residente em Castelo Branco
-            </label>
+            <label className="checkbox-label">Sou Residente em Castelo Branco</label>
           </div>
 
-          <div className="space-y-4">
-            <button
-              type="submit"
-              className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-4 rounded-md transition-colors duration-200"
-            >
-              Registar
-            </button>
+          <div className="form-buttons">
+            <button type="submit" className="btn-submit">Registar</button>
 
             <button
               type="button"
               onClick={() => onNavigate('home')}
               className="button-secondary"
             >
-              <ArrowLeft className="mr-2" size={16} />
-              Voltar
+              <ArrowLeft className="mr-2" size={16} /> Voltar
             </button>
 
             <div className="login-redirect">
@@ -214,7 +222,7 @@ const PaginaRegisto = ({ onNavigate, onLogin }) => {
               <button
                 type="button"
                 onClick={() => onNavigate('login')}
-                className="text-indigo-600 hover:text-indigo-800 font-semibold transition-colors duration-200"
+                className="text-indigo-600 hover:text-indigo-800 font-semibold"
               >
                 Login
               </button>
