@@ -38,12 +38,12 @@ async function initializeDatabase() {
     // Create containers if they don't exist
     await database.containers.createIfNotExists({
       id: businessContainerName,
-      partitionKey: { paths: ['/category'] }
+      partitionKey: { paths: ['/id'] }
     });
 
     await database.containers.createIfNotExists({
       id: userContainerName,
-      partitionKey: { paths: ['/email'] }
+      partitionKey: { paths: ['/id'] }
     });
 
     await database.containers.createIfNotExists({
@@ -745,7 +745,24 @@ app.put('/api/businesses/:id', async (req, res) => {
     
     const { resource: result } = await businessContainer.item(id, existingBusiness.category)
       .replace(updatedBusiness);
-    
+
+    // --- Update all favorites with new businessName and businessCategory ---
+    const favoriteQuery = {
+      query: 'SELECT * FROM c WHERE c.businessId = @id',
+      parameters: [{ name: '@id', value: id }]
+    };
+    const { resources: favorites } = await favoriteContainer.items
+      .query(favoriteQuery)
+      .fetchAll();
+
+    for (const fav of favorites) {
+      fav.businessName = updatedBusiness.name;
+      fav.businessCategory = updatedBusiness.category;
+     
+      await favoriteContainer.item(fav.id, fav.userId).replace(fav);
+    }
+    // --- End update favorites ---
+
     res.json({
       success: true,
       message: 'Business updated successfully',
