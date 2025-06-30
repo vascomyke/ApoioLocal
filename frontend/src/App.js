@@ -64,6 +64,17 @@ const AppContent = () => {
     }
   }, []);
 
+  useEffect(() => {
+  const token = localStorage.getItem('token');
+  if (!token) return;
+  fetch('http://localhost:3001/api/favorites', {
+    headers: { 'Authorization': `Bearer ${token}` }
+  })
+    .then(res => res.json())
+    .then(data => setFavoritos(Array.isArray(data.data) ? data.data : []))
+    .catch(() => setFavoritos([]));
+}, [user]);
+
   const handleNavigation = (page) => {
     const path = getPathFromPage(page);
     navigate(path);
