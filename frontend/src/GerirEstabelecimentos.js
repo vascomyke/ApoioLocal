@@ -43,10 +43,32 @@ const GerirEstabelecimentos = ({ onNavigate, favoritos, onToggleFavorito }) => {
     setEditData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const guardarEdicao = () => {
-    setEstabs(estabs.map((e) => (e.id === editId ? editData : e)));
-    setEditId(null);
-    // Optionally, call your backend to update the business as well
+  const guardarEdicao = async () => {
+    try {
+      const response = await fetch(`http://localhost:3001/api/businesses/${editId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: editData.name,
+          category: editData.category,
+          address: editData.address,
+          postalCode: editData.postalCode,
+          phone: editData.phone,
+          email: editData.email,
+          website: editData.website,
+          description: editData.description,
+        }),
+      });
+      const data = await response.json();
+      if (response.ok && data.success) {
+        setEstabs(estabs.map((e) => (e.id === editId ? data.data : e)));
+        setEditId(null);
+      } else {
+        alert(data.message || 'Erro ao atualizar estabelecimento.');
+      }
+    } catch (error) {
+      alert('Erro de ligação ao servidor.');
+    }
   };
 
   return (
@@ -107,7 +129,7 @@ const GerirEstabelecimentos = ({ onNavigate, favoritos, onToggleFavorito }) => {
                       <p>
                         <strong>Telemóvel:</strong>{' '}
                         <input
-                          name="telemovelEmpresa"
+                          name="phone"
                           value={editData.phone}
                           onChange={handleInputChange}
                         />
@@ -115,7 +137,7 @@ const GerirEstabelecimentos = ({ onNavigate, favoritos, onToggleFavorito }) => {
                       <p>
                         <strong>Email:</strong>{' '}
                         <input
-                          name="emailEmpresa"
+                          name="email"
                           value={editData.email}
                           onChange={handleInputChange}
                         />
@@ -123,7 +145,7 @@ const GerirEstabelecimentos = ({ onNavigate, favoritos, onToggleFavorito }) => {
                       <p>
                         <strong>Website:</strong>{' '}
                         <input
-                          name="site"
+                          name="website"
                           value={editData.website}
                           onChange={handleInputChange}
                         />
@@ -131,7 +153,7 @@ const GerirEstabelecimentos = ({ onNavigate, favoritos, onToggleFavorito }) => {
                       <p>
                         <strong>Descrição:</strong>{' '}
                         <textarea
-                          name="descricao"
+                          name="description"
                           value={editData.description}
                           onChange={handleInputChange}
                           className="textarea-grande"
