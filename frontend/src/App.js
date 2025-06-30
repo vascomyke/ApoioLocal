@@ -82,16 +82,50 @@ const AppContent = () => {
     navigate('/');
   };
 
-  const toggleFavorito = (estab) => {
-    const existe = favoritos.some((e) => e.id === estab.id);
-    setFavoritos((prev) =>
-      existe ? prev.filter((e) => e.id !== estab.id) : [...prev, estab]
-    );
-  };
-
   const handleRegistarEstabelecimento = (novo) => {
     setEstabelecimentos((prev) => [...prev, novo]);
     navigate('/gerir-estabelecimentos');
+  };
+
+  
+
+  const toggleFavorito = async (estab) => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      alert('É necessário estar autenticado para favoritar.');
+      return;
+    }
+    const isFav = favoritos.some((f) => f.id === estab.id);
+
+    try {
+      if (isFav) {
+        // Remove from favorites
+        const response = await fetch(`http://localhost:3001/api/favorites/${estab.id}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await response.json();
+        if (response.ok && data.success) {
+          setFavoritos(favoritos.filter((f) => f.id !== estab.id));
+        } else {
+          alert(data.message || 'Erro ao remover dos favoritos.');
+        }
+      } else {
+        // Add to favorites
+        const response = await fetch(`http://localhost:3001/api/favorites/${estab.id}`, {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await response.json();
+        if (response.ok && data.success) {
+          setFavoritos([...favoritos, estab]);
+        } else {
+          alert(data.message || 'Erro ao adicionar aos favoritos.');
+        }
+      }
+    } catch (error) {
+      alert('Erro de ligação ao servidor.');
+    }
   };
 
   // Protected route wrapper

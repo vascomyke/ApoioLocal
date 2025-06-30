@@ -15,6 +15,8 @@ const VerEstabelecimentos = ({ onNavigate, favoritos, onToggleFavorito }) => {
     setVerMaisId(verMaisId === id ? null : id);
   };
 
+
+
   return (
     <div className="estabs-container">
       <div className="estabs-box">
@@ -56,5 +58,7 @@ const VerEstabelecimentos = ({ onNavigate, favoritos, onToggleFavorito }) => {
     </div>
   );
 };
+
+
 
 export default VerEstabelecimentos;
