@@ -39,10 +39,14 @@ const VerEstabelecimentos = ({ onNavigate, favoritos, onToggleFavorito }) => {
 
                 {mostrarDetalhes && (
                   <div className="detalhes">
-                    <p><strong>Descrição:</strong> {estab.descricao}</p>
-                    <p><strong>Email:</strong> {estab.emailEmpresa}</p>
-                    <p><strong>Telemóvel:</strong> {estab.telemovelEmpresa}</p>
-                    <p><strong>Website:</strong> <a href={estab.site} target="_blank" rel="noreferrer">{estab.site}</a></p>
+                    {mostrarDetalhes && (
+                      <div className="detalhes">
+                        <p><strong>Descrição:</strong> {estab.description}</p>
+                        <p><strong>Email:</strong> {estab.email}</p>
+                        <p><strong>Telemóvel:</strong> {estab.phone}</p>
+                        <p><strong>Website:</strong> <a href={estab.website} target="_blank" rel="noreferrer">{estab.website}</a></p>
+                      </div>
+                    )}
                   </div>
                 )}
 

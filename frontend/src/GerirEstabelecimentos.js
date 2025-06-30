@@ -108,7 +108,7 @@ const GerirEstabelecimentos = ({ onNavigate, favoritos, onToggleFavorito }) => {
                         <strong>Telemóvel:</strong>{' '}
                         <input
                           name="telemovelEmpresa"
-                          value={editData.telemovelEmpresa}
+                          value={editData.phone}
                           onChange={handleInputChange}
                         />
                       </p>
@@ -116,7 +116,7 @@ const GerirEstabelecimentos = ({ onNavigate, favoritos, onToggleFavorito }) => {
                         <strong>Email:</strong>{' '}
                         <input
                           name="emailEmpresa"
-                          value={editData.emailEmpresa}
+                          value={editData.email}
                           onChange={handleInputChange}
                         />
                       </p>
@@ -124,7 +124,7 @@ const GerirEstabelecimentos = ({ onNavigate, favoritos, onToggleFavorito }) => {
                         <strong>Website:</strong>{' '}
                         <input
                           name="site"
-                          value={editData.site}
+                          value={editData.website}
                           onChange={handleInputChange}
                         />
                       </p>
@@ -132,18 +132,18 @@ const GerirEstabelecimentos = ({ onNavigate, favoritos, onToggleFavorito }) => {
                         <strong>Descrição:</strong>{' '}
                         <textarea
                           name="descricao"
-                          value={editData.descricao}
+                          value={editData.description}
                           onChange={handleInputChange}
-                          rows={2}
+                          className="textarea-grande"
                         />
                       </p>
                     </>
                   ) : (
                     <>
-                      <p><strong>Telemóvel:</strong> {estab.telemovelEmpresa}</p>
-                      <p><strong>Email:</strong> {estab.emailEmpresa}</p>
-                      <p><strong>Website:</strong> {estab.site}</p>
-                      <p><strong>Descrição:</strong> {estab.descricao}</p>
+                      <p><strong>Telemóvel:</strong> {estab.phone}</p>
+                      <p><strong>Email:</strong> {estab.email}</p>
+                      <p><strong>Website:</strong> {estab.website}</p>
+                      <p><strong>Descrição:</strong> {estab.description}</p>
                     </>
                   )}
 

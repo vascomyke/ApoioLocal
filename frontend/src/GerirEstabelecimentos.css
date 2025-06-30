@@ -35,6 +35,12 @@
   font-weight: 600;
 }
 
+.textarea-grande {
+  width: 90%;
+  min-height: 100px;
+  resize: vertical;
+}
+
 .btn-editar {
   background-color: #4299e1;
   color: white;
