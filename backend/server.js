@@ -322,7 +322,7 @@ app.put('/api/users/profile', authenticateToken, async (req, res) => {
       updatedAt: new Date().toISOString()
     };
 
-    const { resource: result } = await userContainer.item(existingUser.id, existingUser.email)
+    const { resource: result } = await userContainer.item(existingUser.id, existingUser.id)
       .replace(updatedUser);
 
     const { password: _, ...userResponse } = result;
@@ -743,7 +743,7 @@ app.put('/api/businesses/:id', async (req, res) => {
       updatedAt: new Date().toISOString()
     };
     
-    const { resource: result } = await businessContainer.item(id, existingBusiness.category)
+    const { resource: result } = await businessContainer.item(id, id)
       .replace(updatedBusiness);
 
     // --- Update all favorites with new businessName and businessCategory ---
@@ -801,11 +801,25 @@ app.delete('/api/businesses/:id', async (req, res) => {
     }
     
     const business = businesses[0];
-    await businessContainer.item(id, business.category).delete();
-    
+    await businessContainer.item(id, id).delete(); // Use id as partition key
+
+    // --- Delete all favorites referencing this business ---
+    const favoriteQuery = {
+      query: 'SELECT * FROM c WHERE c.businessId = @id',
+      parameters: [{ name: '@id', value: id }]
+    };
+    const { resources: favorites } = await favoriteContainer.items
+      .query(favoriteQuery)
+      .fetchAll();
+
+    for (const fav of favorites) {
+      await favoriteContainer.item(fav.id, fav.userId).delete();
+    }
+    // --- End delete favorites ---
+
     res.json({
       success: true,
-      message: 'Business deleted successfully'
+      message: 'Business and all its favorites deleted successfully'
     });
   } catch (error) {
     console.error('Error deleting business:', error);

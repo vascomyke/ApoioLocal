@@ -79,6 +79,17 @@ const RegistarEstabelecimento = ({ onNavigate, onRegistar }) => {
             <option value="Restaurante">Restaurante</option>
             <option value="Loja">Loja</option>
             <option value="Serviço">Serviço</option>
+            <option value="Café">Café</option>
+            <option value="Bar">Bar</option>
+            <option value="Supermercado">Supermercado</option>
+            <option value="Padaria">Padaria</option>
+            <option value="Talho">Talho</option>
+            <option value="Farmácia">Farmácia</option>
+            <option value="Clínica">Clínica</option>
+            <option value="Ginásio">Ginásio</option>
+            <option value="Hotel">Hotel</option>
+            <option value="Papelaria">Papelaria</option>
+            <option value="Lavandaria">Lavandaria</option>
             <option value="Outro">Outro</option>
           </select>
 
