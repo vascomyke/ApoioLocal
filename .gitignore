@@ -3,3 +3,4 @@ frontend/.env
 ApoioLocal.code-workspace
 backend/node_modules
 azure-functions/node_modules
+azure-functions/local.settings.json
