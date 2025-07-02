@@ -28,7 +28,7 @@ app.storageBlob('ImageProcessor', {
       const processedContainer = blobServiceClient.getContainerClient('processed-photos');
       
       // Ensure processed container exists
-      await processedContainer.createIfNotExists({ access: 'blob' });
+      await processedContainer.createIfNotExists();
 
       // Process image with Sharp
       const optimizedBuffer = await sharp(originalBlob)
@@ -77,7 +77,7 @@ app.storageBlob('ImageProcessor', {
       context.log(`Thumbnail URL: ${thumbnailBlobClient.url}`);
 
     } catch (error) {
-      context.log.error('Error processing image:', error);
+      context.log('Error processing image:', error); // <-- FIXED
       throw error;
     }
   }
@@ -114,7 +114,7 @@ app.http('ProcessImage', {
 
       // Process the image
       const processedContainer = blobServiceClient.getContainerClient('processed-photos');
-      await processedContainer.createIfNotExists({ access: 'blob' });
+      await processedContainer.createIfNotExists();
 
       // Create optimized version
       const optimizedBuffer = await sharp(originalBuffer)
