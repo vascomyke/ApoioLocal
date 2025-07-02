@@ -10,16 +10,16 @@ import GerirEstabelecimentos from './GerirEstabelecimentos';
 import EstabelecimentosFavoritos from './EstabelecimentosFavoritos';
 import AccessDenied from './AccessDenied';
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
+
 
 // Main App component that handles routing
 const AppContent = () => {
   const navigate = useNavigate();
-  const location = useLocation();
+  //const location = useLocation();
   const [user, setUser] = useState(null);
   const [estabelecimentos, setEstabelecimentos] = useState([]);
   const [favoritos, setFavoritos] = useState([]);
-
+  const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
   // Convert URL path to page name for consistency with your existing logic
   const getPageFromPath = (path) => {
     const pathMap = {
