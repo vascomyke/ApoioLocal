@@ -6,11 +6,13 @@ const GerirEstabelecimentos = ({ onNavigate, favoritos, onToggleFavorito }) => {
   const [editId, setEditId] = useState(null);
   const [editData, setEditData] = useState({});
 
+  const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
+
   useEffect(() => {
     // Get user from localStorage
     const user = JSON.parse(localStorage.getItem('user'));
     if (user && user.id) {
-      fetch(`http://localhost:3001/api/businesses/user/${user.id}`)
+      fetch(`${API_BASE_URL}/api/businesses/user/${user.id}`)
         .then(res => res.json())
         .then(data => setEstabs(Array.isArray(data.data) ? data.data : []))
         .catch(() => setEstabs([]));
@@ -19,7 +21,7 @@ const GerirEstabelecimentos = ({ onNavigate, favoritos, onToggleFavorito }) => {
 
   const removerEstab = async (id) => {
     try {
-      const response = await fetch(`http://localhost:3001/api/businesses/${id}`, {
+      const response = await fetch(`${API_BASE_URL}/api/businesses/${id}`, {
         method: 'DELETE'
       });
       const data = await response.json();
@@ -45,7 +47,7 @@ const GerirEstabelecimentos = ({ onNavigate, favoritos, onToggleFavorito }) => {
 
   const guardarEdicao = async () => {
     try {
-      const response = await fetch(`http://localhost:3001/api/businesses/${editId}`, {
+      const response = await fetch(`${API_BASE_URL}/api/businesses/${editId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

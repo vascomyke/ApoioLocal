@@ -5,8 +5,10 @@ const VerEstabelecimentos = ({ onNavigate, favoritos, onToggleFavorito }) => {
   const [estabelecimentos, setEstabelecimentos] = useState([]);
   const [verMaisId, setVerMaisId] = useState(null);
 
+  const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
+  
   useEffect(() => {
-    fetch('http://localhost:3001/api/businesses')
+    fetch(`${API_BASE_URL}/api/businesses`)
       .then(res => res.json())
       .then(data => setEstabelecimentos(Array.isArray(data.data) ? data.data : []))
       .catch(() => setEstabelecimentos([]));

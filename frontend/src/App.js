@@ -10,6 +10,8 @@ import GerirEstabelecimentos from './GerirEstabelecimentos';
 import EstabelecimentosFavoritos from './EstabelecimentosFavoritos';
 import AccessDenied from './AccessDenied';
 
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
+
 // Main App component that handles routing
 const AppContent = () => {
   const navigate = useNavigate();
@@ -61,13 +63,13 @@ const AppContent = () => {
       localStorage.removeItem('user');
       localStorage.removeItem('loginExpiry');
       setUser(null);
-    }
-  }, []);
+      }
+    }, []);
 
   useEffect(() => {
   const token = localStorage.getItem('token');
   if (!token) return;
-  fetch('http://localhost:3001/api/favorites', {
+  fetch(`${API_BASE_URL}/api/favorites`, {
     headers: { 'Authorization': `Bearer ${token}` }
   })
     .then(res => res.json())
@@ -111,7 +113,7 @@ const AppContent = () => {
     try {
       if (isFav) {
         // Remove from favorites
-        const response = await fetch(`http://localhost:3001/api/favorites/${estab.id}`, {
+        const response = await fetch(`${API_BASE_URL}/api/favorites/${estab.id}`, {
           method: 'DELETE',
           headers: { 'Authorization': `Bearer ${token}` }
         });
@@ -123,7 +125,7 @@ const AppContent = () => {
         }
       } else {
         // Add to favorites
-        const response = await fetch(`http://localhost:3001/api/favorites/${estab.id}`, {
+        const response = await fetch(`${API_BASE_URL}/api/favorites/${estab.id}`, {
           method: 'POST',
           headers: { 'Authorization': `Bearer ${token}` }
         });

@@ -14,6 +14,8 @@ const RegistarEstabelecimento = ({ onNavigate, onRegistar }) => {
     fotos: null
   });
 
+  const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
+
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     setFormData({
@@ -43,7 +45,7 @@ const RegistarEstabelecimento = ({ onNavigate, onRegistar }) => {
     };
 
     try {
-      const response = await fetch('http://localhost:3001/api/businesses', {
+      const response = await fetch(`${API_BASE_URL}/api/businesses`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
