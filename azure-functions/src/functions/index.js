@@ -165,7 +165,7 @@ app.http('ProcessImage', {
       };
 
     } catch (error) {
-      context.log.error('Error in manual processing:', error);
+      context.log('Error in manual processing:', error);
       return {
         status: 500,
         headers: { 'Content-Type': 'application/json' },
@@ -205,3 +205,5 @@ app.http('health', {
     };
   }
 });
+
+app.start();

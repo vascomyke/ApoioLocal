@@ -1,8 +1,11 @@
 {
-  "name": "",
+  "name": "apoiolocal-functions",
   "version": "1.0.0",
-  "description": "",
-  "main": "src/functions/*.js",
+  "description": "Azure Functions for image processing",
+  "main": "src/functions/index.js",
+  "azureFunctions": {
+    "entryPoint": "src/functions/index.js"
+  },
   "scripts": {
     "start": "func start",
     "test": "echo \"No tests yet...\""
