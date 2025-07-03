@@ -2,9 +2,9 @@
   "name": "apoiolocal-functions",
   "version": "1.0.0",
   "description": "Azure Functions for image processing",
-  "main": "src/functions/index.js",
+  "main": "index.js",
   "azureFunctions": {
-    "entryPoint": "src/functions/index.js"
+    "entryPoint": "index.js"
   },
   "scripts": {
     "start": "func start",
